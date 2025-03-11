@@ -5,9 +5,5 @@
   "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["sfo1"],
-  "env": {
-    "OPENAI_API_KEY": "@openai-api-key",
-    "MAKE_WEBHOOK_URL": "@make-webhook-url"
-  },
   "outputDirectory": ".next"
 } 
