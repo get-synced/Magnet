@@ -1,0 +1,506 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #000000 0%, #0B0B2B 35%, #251445 65%, #000000 100%);
+  --accent-gradient: linear-gradient(135deg, #00F0FF 0%, #B935FF 100%);
+  --metallic-gradient: linear-gradient(135deg, 
+    rgba(0, 240, 255, 0.9) 0%,
+    rgba(255, 215, 0, 0.3) 25%,
+    rgba(185, 53, 255, 0.2) 65%,
+    rgba(185, 53, 255, 0.9) 100%
+  );
+  --metallic-shine: linear-gradient(135deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.1) 25%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 215, 0, 0.1) 75%,
+    transparent 100%
+  );
+  --metallic-texture: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0px,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  --text-gradient: linear-gradient(to right, #00F0FF, #B935FF);
+  --glow-cyan: 0 0 20px rgba(0, 240, 255, 0.4);
+  --glow-purple: 0 0 20px rgba(185, 53, 255, 0.4);
+  --metallic-shadow: 
+    0 0 10px rgba(0, 240, 255, 0.3),
+    0 0 20px rgba(185, 53, 255, 0.2),
+    0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+    filter: brightness(0.9) contrast(1.1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.1) contrast(1.2);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: brightness(0.9) contrast(1.1);
+  }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+@keyframes metallic-flow {
+  0% {
+    background-position: 0% 50%;
+    filter: brightness(0.8) contrast(1.2);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.2) contrast(1.5);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: brightness(0.8) contrast(1.2);
+  }
+}
+
+@keyframes shine-effect {
+  0% {
+    transform: translateX(-100%) skewX(-45deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-45deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 237, 237, 237;
+    --background-start-rgb: 11, 11, 43;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  background: var(--primary-gradient);
+  color: #fff;
+  min-height: 100vh;
+  font-family: 'Inter var', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gradient-text {
+  background: var(--text-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+}
+
+.metallic-text {
+  background: linear-gradient(
+    90deg,
+    #00F0FF 0%,
+    #FFD700 30%,
+    #B935FF 50%,
+    #FFD700 70%,
+    #00F0FF 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 8s ease-in-out infinite;
+  text-shadow: var(--metallic-shadow);
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.metallic-text::before,
+.metallic-text::after {
+  display: none;
+}
+
+.accent-border {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.accent-border:hover {
+  transform: scale(1.02);
+}
+
+.accent-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--accent-gradient);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.accent-border:hover::after {
+  opacity: 1;
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  z-index: 1;
+}
+
+.glass-effect::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--primary-gradient);
+  z-index: -1;
+}
+
+.glass-effect:hover::before {
+  opacity: 0.2;
+}
+
+.glass-effect:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.breathe {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* Interactive elements */
+.interactive-glow {
+  transition: all 0.3s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.interactive-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--metallic-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.interactive-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.interactive-glow:hover::before {
+  opacity: 0.2;
+}
+
+.interactive-glow:active {
+  transform: translateY(0);
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  background: transparent !important;
+}
+
+/* Enable smooth scrolling but hide the scrollbar */
+* {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.metallic-surface {
+  position: relative;
+  background: var(--metallic-gradient);
+  background-size: 200% 200%;
+  animation: metallic-flow 8s ease infinite;
+  overflow: hidden;
+}
+
+.metallic-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--metallic-shine);
+  animation: shine-effect 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Make entire option box clickable */
+.option-box {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.option-box input[type="radio"],
+.option-box input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.option-box .radio-display,
+.option-box .checkbox-display {
+  position: relative;
+  height: 24px;
+  width: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.option-box .checkbox-display {
+  border-radius: 6px;
+}
+
+.option-box input:checked ~ .content .radio-display::after,
+.option-box input:checked ~ .content .checkbox-display::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #00F0FF 0%, #B935FF 100%);
+  border-radius: inherit;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.option-box:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.option-box input:checked ~ .content {
+  background: var(--accent-gradient);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.option-box input:checked ~ .content::before {
+  opacity: 0;
+}
+
+.option-box input:checked ~ .content span {
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.option-box .content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: inherit;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.option-box .content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--metallic-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+
+.option-box:hover .content::before {
+  opacity: 0.1;
+}
+
+.option-box input:disabled ~ .content {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.option-box input:disabled ~ .content:hover {
+  background: rgba(255, 255, 255, 0.03);
+  transform: none;
+  box-shadow: none;
+}
+
+/* Chat message styling */
+.chat-message {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.chat-message.user {
+  background: var(--accent-gradient);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.chat-message.assistant {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.chat-message.assistant:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.chat-message::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--metallic-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.chat-message:hover::before {
+  opacity: 0.1;
+}
+
+.chat-message p {
+  position: relative;
+  z-index: 1;
+}
+
+/* Chat animations */
+@keyframes messageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes typingBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+}
+
+.typing-dot:nth-child(1) { animation: typingBounce 1s infinite 0.1s; }
+.typing-dot:nth-child(2) { animation: typingBounce 1s infinite 0.2s; }
+.typing-dot:nth-child(3) { animation: typingBounce 1s infinite 0.3s; }
+
+/* Chat input styling */
+.chat-input {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+.chat-input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.chat-send-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.chat-send-button::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: var(--accent-gradient);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.chat-send-button:hover::before {
+  opacity: 1;
+}
+
+.chat-send-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--glow-cyan), var(--glow-purple);
+}
+
+.chat-send-button:active {
+  transform: translateY(1px);
+}
